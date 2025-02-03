@@ -3,19 +3,32 @@
   <head>
     <meta charset="UTF-8" />
     <title>LOGIN</title>
+    <style>
+      h1 {
+        color: rgb(173, 6, 6);
+        text-align: center;
+      }
+      .login_inputs {
+        font-size: 25px;
+      }
+      input[type="password"] {
+        font-size: 25px;
+      }
+      #btn_login {
+        font-size: 25px;
+        width: 100px;
+        height: 30px;
+      }
+    </style>
   </head>
   <body>
-    <h1 style="color: rgb(173, 6, 6); text-align: center">Login</h1>
+    <h1>Login</h1>
     <form>
-      ID: <input type="text" style="font-size: 25px" />
+      ID: <input type="text" class="login_inputs" />
       <br />
-      PW: <input type="password" style="font-size: 25px" />
+      PW: <input type="password" />
       <br />
-      <input
-        type="button"
-        value="login"
-        style="font-size: 25px; width: 100px; height: 30px"
-      />
+      <input type="button" id="btn_login" value="login" />
     </form>
   </body>
 </html>

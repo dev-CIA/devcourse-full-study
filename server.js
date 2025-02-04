@@ -1,9 +1,13 @@
 // require: nodejs가 가지고 있는 모듈을 가져오는 함수
 // http라는 모듈을 node에서 제공함
 let http = require("http");
+let url = require("url"); // nodejs에서 제공하는 url이라는 모듈
 
-function start() {
+function start(route) {
   function onRequest(req, res) {
+    let pathName = url.parse(req.url).pathname; // 포트넘버 뒤에 오는 경로
+    route(pathName);
+
     res.writeHead(200, { "Content-Type": "text/html" });
     res.write("Hello Node.js");
     res.end();

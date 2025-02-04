@@ -3,10 +3,10 @@
 let http = require("http");
 let url = require("url"); // nodejs에서 제공하는 url이라는 모듈
 
-function start(route) {
+function start(route, handle) {
   function onRequest(req, res) {
     let pathName = url.parse(req.url).pathname; // 포트넘버 뒤에 오는 경로
-    route(pathName);
+    route(pathName, handle);
 
     res.writeHead(200, { "Content-Type": "text/html" });
     res.write("Hello Node.js");

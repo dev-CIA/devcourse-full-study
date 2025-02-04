@@ -1,11 +1,13 @@
-function route(pathName, handle) {
+function route(pathName, handle, res) {
   console.log("pathName: ", pathName);
 
-  if (pathName !== "/" || pathName !== "/login") {
-    console.log("경로를 확인하세요");
-    return;
+  if (typeof handle[pathName] == "function") {
+    handle[pathName](res);
+  } else {
+    res.writeHead(404, { "Content-Type": "text/html" });
+    res.write("Not found");
+    res.end();
   }
-  handle[pathName]();
 }
 
 exports.route = route;

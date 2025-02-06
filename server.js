@@ -6,7 +6,9 @@ let url = require("url"); // nodejs에서 제공하는 url이라는 모듈
 function start(route, handle) {
   function onRequest(req, res) {
     let pathName = url.parse(req.url).pathname; // 포트넘버 뒤에 오는 경로
-    route(pathName, handle, res);
+    let queryData = url.parse(req.url, true).query;
+
+    route(pathName, handle, res, queryData.productId);
   }
   /**
    * createServer: 서버를 만드는 함수 제공

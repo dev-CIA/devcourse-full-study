@@ -6,7 +6,7 @@ const books = (req, res) => {
   const { category_id, news, limit, current_page } = req.query;
   const offset = limit * (current_page - 1);
 
-  let sql = `SELECT * FROM books`;
+  let sql = `SELECT * , (SELECT count(*) FROM likes WHERE liked_book_id = books.id) AS likes FROM books`;
   const values = [];
 
   if (category_id) {
@@ -35,12 +35,19 @@ const books = (req, res) => {
 };
 
 const bookDetail = (req, res) => {
-  const { id } = req.params;
+  const { user_id } = req.body;
+  const { id: book_id } = req.params;
+  const values = [user_id, book_id];
 
-  const sql = `SELECT * FROM BookShop.books LEFT JOIN category 
-                ON books.category_id = category.id WHERE books.id = ?`;
+  const sql = `SELECT *, 
+	                (SELECT count(*) FROM BookShop.likes WHERE liked_book_id = books.id) AS likes,
+	                (SELECT EXISTS (SELECT * FROM BookShop.likes WHERE user_id = ? AND liked_book_id = books.id)) AS LIKED 
+                  FROM BookShop.books
+                  LEFT JOIN category
+                  ON books.category_id = category.category_id
+                  WHERE books.id = ?`;
 
-  conn.query(sql, id, (err, results) => {
+  conn.query(sql, values, (err, results) => {
     if (errorHandler.isResError(err, res)) return;
 
     const bookDetail = results[0] ?? null;
